@@ -1,8 +1,13 @@
 package com.windmajor;
 
+import com.windmajor.question.Solution_001;
+
 public class Main {
 
     public static void main(String[] args) {
-	// write your code here
+
+        int[] result = new Solution_001().twoSum2(new int[]{2, 7, 11, 15}, 9);
+        System.out.println("result[0] = " + result[0]);
+        System.out.println("result[1] = " + result[1]);
     }
 }
