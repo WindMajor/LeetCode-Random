@@ -1,9 +1,6 @@
 package com.windmajor.question;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class Solution_001 {
 
@@ -38,9 +35,34 @@ public class Solution_001 {
     }
 
     /* 36. 有效的数独 */
-//    public boolean isValidSudoku(char[][] board) {
-//
-//    }
+    public boolean isValidSudoku(char[][] board) {
+        HashSet<Character> rowSet = new HashSet<>();
+        HashSet<Character> columnSet = new HashSet<>();
+        HashSet<Character> sudokuSet = new HashSet<>();
+
+        for (int i = 0; i < 9; i++) {
+            rowSet.clear();
+            columnSet.clear();
+            sudokuSet.clear();
+            for (int j = 0; j < 9; j++) {
+
+                if (board[i][j] != '.' && !rowSet.add(board[i][j])) {
+                    return false;
+                }
+                if (board[j][i] != '.' && !columnSet.add(board[j][i])) {
+                    return false;
+                }
+
+                int rowIndex = j / 3 + 3 * (i / 3);
+                int columnIndex = j % 3 + 3 * (i % 3);
+                if (board[rowIndex][columnIndex] != '.' && !sudokuSet.add(board[rowIndex][columnIndex])) {
+                    return false;
+                }
+
+            }
+        }
+        return true;
+    }
 
     /* 49. 字母异位词分组 */
     public List<List<String>> groupAnagrams(String[] strs) {
