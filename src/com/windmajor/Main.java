@@ -13,5 +13,8 @@ public class Main {
 
         int result = new Solution_701().numJewelsInStones("z", "ZZ");
         System.out.println(result);
+
+        int i = new Solution_001().lengthOfLongestSubstring2("dvdf");
+        System.out.println(i);
     }
 }

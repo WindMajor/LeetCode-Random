@@ -34,6 +34,50 @@ public class Solution_001 {
         return new int[2];
     }
 
+
+    /* 3. 无重复字符的最长子串 */
+    public int lengthOfLongestSubstring(String s) {
+        HashSet<Character> set = new HashSet<>();
+
+        char[] chars = s.toCharArray();
+        int result = 0;
+
+        for (int i = 0; i < s.length(); i++) {
+            set.add(chars[i]);
+            int j = 1;
+            while ((i + j) < s.length() && !set.contains(chars[i + j])) {
+                set.add(chars[i + j]);
+                j += 1;
+            }
+            result = Math.max(result, set.size());
+            set.clear();
+        }
+        return result;
+    }
+
+    public int lengthOfLongestSubstring2(String s) {
+        HashSet<Character> set = new HashSet<>();
+        char[] chars = s.toCharArray();
+        int n = chars.length;
+
+        int k = 0;
+        int result = 0;
+
+        for (int i = 0; i < n; i++) {
+            if (i > 0) {
+                set.remove(chars[i - 1]); // 每次遍历都将最左边的字符从set中移除。
+            }
+            // 只要不重复，尽可能的把字符放入set中；每次新的for循环，移除最左边的字符，看能不能继续不重复的向set中放字符。
+            while (k < n && !set.contains(chars[k])) {
+                set.add(chars[k]);
+                k += 1;
+            }
+            result = Math.max(result, set.size());
+        }
+        return result;
+    }
+
+
     /* 36. 有效的数独 */
     public boolean isValidSudoku(char[][] board) {
         HashSet<Character> rowSet = new HashSet<>();
