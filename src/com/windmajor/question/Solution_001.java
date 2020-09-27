@@ -58,7 +58,6 @@ public class Solution_001 {
                 if (board[rowIndex][columnIndex] != '.' && !sudokuSet.add(board[rowIndex][columnIndex])) {
                     return false;
                 }
-
             }
         }
         return true;
