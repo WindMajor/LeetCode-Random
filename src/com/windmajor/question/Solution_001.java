@@ -124,6 +124,19 @@ public class Solution_001 {
         return new ArrayList<>(map.values());
     }
 
+    /* 70. 爬楼梯 */
+    public int climbStairs(int n) {
+        int p = 0;
+        int q = 0;
+        int r = 1;
+        for (int i = 1; i <= n; i++) {
+            p = q;
+            q = r;
+            r = p + q;
+        }
+        return r;
+    }
+
     /* 88. 合并两个有序数组 */
     public void merge(int[] nums1, int m, int[] nums2, int n) {
         System.arraycopy(nums2, 0, nums1, m, n);
