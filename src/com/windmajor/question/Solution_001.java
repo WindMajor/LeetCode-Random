@@ -124,6 +124,33 @@ public class Solution_001 {
         return new ArrayList<>(map.values());
     }
 
+    /* 53. 最大子序和 */
+    public int maxSubArray(int[] nums) { // 贪心算法
+        int pre = 0;
+        int maxAns = nums[0];
+        for (int x : nums) {
+            pre = Math.max(pre + x, x);
+            maxAns = Math.max(maxAns, pre);
+        }
+        return maxAns;
+    }
+
+    public int maxSubArray2(int[] nums) {  // 动态规划
+        for (int i = 0; i < nums.length; i++) {
+            if (i - 1 < 0) continue;
+            if (nums[i - 1] > 0) {
+                nums[i] = nums[i] + nums[i - 1];
+            }
+        }
+
+        int ans = nums[0];
+        for (int num : nums) {
+            ans = Math.max(ans, num);
+        }
+        return ans;
+    }
+
+
     /* 70. 爬楼梯 */
     public int climbStairs(int n) {
         int p = 0;
