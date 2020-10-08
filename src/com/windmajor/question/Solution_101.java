@@ -15,7 +15,7 @@ public class Solution_101 {
     }
 
     public TreeNode sortedArrayToBST(int[] nums) {
-        return helper(nums, 0 ,nums.length - 1);
+        return helper(nums, 0, nums.length - 1);
     }
 
     public TreeNode helper(int[] nums, int left, int right) {
@@ -31,7 +31,7 @@ public class Solution_101 {
     }
 
     public TreeNode sortedArrayToBST2(int[] nums) {
-        return helper2(nums, 0 ,nums.length - 1);
+        return helper2(nums, 0, nums.length - 1);
     }
 
     public TreeNode helper2(int[] nums, int left, int right) {
@@ -44,5 +44,30 @@ public class Solution_101 {
         root.left = helper(nums, left, mid - 1);
         root.right = helper(nums, mid + 1, right);
         return root;
+    }
+
+    /* 121. 买卖股票的最佳时机 */
+    public int maxProfit(int[] prices) {
+        if (prices.length == 0) return 0;
+
+        int ans = 0;
+        for (int i = prices.length - 1; i >= 0; i--) {
+            for (int j = i - 1; j >= 0; j--) {
+                ans = Math.max(ans, prices[i] - prices[j]);
+            }
+        }
+        return ans;
+    }
+
+    public int maxProfit2(int[] prices) {
+        if (prices.length == 0) return 0;
+
+        int lowPrice = prices[0];
+        int ans = 0;
+        for (int i = 1; i < prices.length; i++) {
+            ans = Math.max(ans, prices[i] - lowPrice);
+            lowPrice = Math.min(lowPrice, prices[i]);
+        }
+        return ans;
     }
 }
