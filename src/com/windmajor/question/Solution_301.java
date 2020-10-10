@@ -145,6 +145,77 @@ public class Solution_301 {
         }
     }
 
+    /* 384. 打乱数组 */
+    static class Solution1 {
+        private int[] array;
+        private int[] original;
+
+        private Random rand = new Random();
+
+        public Solution1(int[] nums) {
+            array = nums;
+            original = nums.clone();
+        }
+
+        public int[] shuffle() {
+            List<Integer> asList = new ArrayList<>();
+            for (int value : array) {
+                asList.add(value);
+            }
+
+            for (int i = 0; i < array.length; i++) {
+                int removeIdx = rand.nextInt(asList.size());
+                array[i] = asList.get(removeIdx);
+                asList.remove(removeIdx);
+            }
+            return array;
+        }
+
+        public int[] reset() {
+            array = original;
+            original = original.clone();
+            return array;
+        }
+    }
+
+    static class Solution2 {
+        private int[] array;
+        private int[] original;
+
+        Random rand = new Random();
+
+        public Solution2(int[] nums) {
+            array = nums;
+            original = nums.clone();
+        }
+
+        public int[] reset() {
+            array = original;
+            original = original.clone();
+            return original;
+        }
+
+        public int[] shuffle() {
+            for (int i = 0; i < array.length; i++) {
+                swapAt(i, randRange(i, array.length));
+            }
+            return array;
+        }
+
+        private int randRange(int min, int max) {
+            return rand.nextInt(max - min) + min;
+        }
+
+        private void swapAt(int i, int j) {
+            int temp = array[i];
+            array[i] = array[j];
+            array[j] = temp;
+//            array[i] = array[i] ^ array[j];
+//            array[j] = array[i] ^ array[j];
+//            array[i] = array[i] ^ array[j]; 这样不行
+        }
+    }
+
     /* 387. 字符串中的第一个唯一字符 */
     public int firstUniqChar(String s) {
         HashMap<Character, Integer> map = new HashMap<>();
