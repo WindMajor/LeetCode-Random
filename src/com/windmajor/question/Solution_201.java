@@ -1,8 +1,29 @@
 package com.windmajor.question;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class Solution_201 {
+
+    /* 204. 计数质数 */
+    public int countPrimes(int n) {
+        boolean[] isPrim = new boolean[n];
+        Arrays.fill(isPrim, true);
+
+        for (int i = 2; i * i < n; i++) {
+            if (isPrim[i]) {
+                for (int j = i * i; j < n; j += i) {
+                    isPrim[j] = false;
+                }
+            }
+        }
+
+        int ans = 0;
+        for (int i = 2; i < n; i++) {
+            if (isPrim[i]) ans += 1;
+        }
+        return ans;
+    }
 
     /* 205.同构字符串 */
     public boolean isIsomorphic(String s, String t) {
