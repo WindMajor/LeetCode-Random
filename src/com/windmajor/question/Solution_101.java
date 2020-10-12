@@ -1,5 +1,8 @@
 package com.windmajor.question;
 
+import java.util.Deque;
+import java.util.LinkedList;
+
 public class Solution_101 {
 
 
@@ -69,6 +72,34 @@ public class Solution_101 {
             lowPrice = Math.min(lowPrice, prices[i]);
         }
         return ans;
+    }
+
+    /* 155. 最小栈 */
+    static class MinStack {
+        LinkedList<Integer> stack = new LinkedList<>();
+        LinkedList<Integer> minStack = new LinkedList<>();
+
+        public MinStack() {
+            minStack.push(Integer.MAX_VALUE); // 预存一个最大值，用来作比较
+        }
+
+        public void push(int x) {
+            stack.push(x);
+            minStack.push(Math.min(minStack.peek(), x));  // 这个minStack每次都只存最小值，可能存在多个一样的值，长度比stack的长度多1
+        }
+
+        public void pop() {
+            stack.pop();
+            minStack.pop();
+        }
+
+        public int top() {
+            return stack.peek();
+        }
+
+        public int getMin() {
+            return minStack.peek();
+        }
     }
 
     /* 198. 打家劫舍 */
