@@ -21,6 +21,7 @@ public class Main {
 //        int i = new Solution_001().lengthOfLongestSubstring2("dvdf");
 //        System.out.println(i);
 
+        /*
         List<Integer> list = new ArrayList<>();
         list.add(6);
         list.add(5);
@@ -41,6 +42,10 @@ public class Main {
         quickSort(list, 0, list.size() - 1);
 
         System.out.println("list = " + list);
+         */
+
+        String s = Integer.toString(28, 3);
+        System.out.println(s);
 
     }
 

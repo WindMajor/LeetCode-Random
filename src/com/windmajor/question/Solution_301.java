@@ -4,6 +4,32 @@ import java.util.*;
 
 public class Solution_301 {
 
+    /* 326. 3的幂 */
+    public boolean isPowerOfThree(int n) {
+        if (n < 1) {
+            return false;
+        }
+
+        while (n % 3 == 0) {
+            n /= 3;
+        }
+        return n == 1;
+    }
+
+    public boolean isPowerOfThree2(int n) {
+        return Integer.toString(n, 3) // 第一步是转换成3进制的数字字符串
+                .matches("^10*$"); // 第二步判断是否符合1后面都是0的特征
+    }
+
+    public boolean isPowerOfThree3(int n) {
+        return (Math.log10(n) / Math.log10(3)) % 1 == 0;
+    }
+
+    public boolean isPowerOfThree4(int n) {
+        // n 是 int 类型的，在int值的范围内，3的幂的最大值是 3的19次方 = 1162261467
+        return n > 0 && 1162261467 % n == 0;
+    }
+
     /* 347. 前 K 个高频元素 */
     public int[] topKFrequent(int[] nums, int k) {
         Map<Integer, Integer> map = new HashMap<>();
