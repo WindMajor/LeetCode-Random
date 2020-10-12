@@ -1,9 +1,58 @@
 package com.windmajor.question;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Solution_401 {
+
+    /* 412. Fizz Buzz */
+    public List<String> fizzBuzz(int n) {
+        List<String> ans = new ArrayList<>();
+
+        for (int i = 1; i <= n; i++) {
+
+            boolean divisibleBy3 = (i % 3 == 0);
+            boolean divisibleBy5 = (i % 5 == 0);
+
+            if (divisibleBy3 && divisibleBy5) {
+                ans.add("FizzBuzz");
+            } else if (divisibleBy3) {
+                ans.add("Fizz");
+            } else if (divisibleBy5) {
+                ans.add("Buzz");
+            } else {
+                ans.add(String.valueOf(i));
+            }
+        }
+        return ans;
+    }
+
+    public List<String> fizzBuzz2(int n) {
+        List<String> ans = new ArrayList<>();
+
+        for (int i = 1; i <= n; i++) {
+
+            boolean divisibleBy3 = (i % 3 == 0);
+            boolean divisibleBy5 = (i % 5 == 0);
+
+            StringBuilder sb = new StringBuilder();
+
+            if (divisibleBy3) {
+                sb.append("Fizz");
+            }
+            if (divisibleBy5) {
+                sb.append("Buzz");
+            }
+
+            if (!divisibleBy3 && !divisibleBy5) {
+                sb.append(i);
+            }
+            ans.add(sb.toString());
+        }
+        return ans;
+    }
 
     /* 454. 四数相加 II */
     public int fourSumCount(int[] A, int[] B, int[] C, int[] D) {
