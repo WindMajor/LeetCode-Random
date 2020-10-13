@@ -75,4 +75,31 @@ public class Solution_401 {
         }
         return ans;
     }
+
+    /* 461. 汉明距离 */
+    public int hammingDistance(int x, int y) {
+        return Integer.bitCount(x ^ y);
+    }
+
+    public int hammingDistance2(int x, int y) {
+        int xor = x ^ y;
+        int distance = 0;
+        while (xor != 0) {
+            if (xor % 2 == 1) {
+                distance += 1;
+            }
+            xor = xor >> 1;
+        }
+        return distance;
+    }
+
+    public int hammingDistance3(int x, int y) {
+        int xor = x ^ y;
+        int distance = 0;
+        while (xor != 0) {
+            distance += 1;
+            xor = xor & (xor - 1);
+        }
+        return distance;
+    }
 }
