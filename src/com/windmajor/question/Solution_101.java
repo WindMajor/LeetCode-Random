@@ -1,7 +1,9 @@
 package com.windmajor.question;
 
+import java.util.ArrayList;
 import java.util.Deque;
 import java.util.LinkedList;
+import java.util.List;
 
 public class Solution_101 {
 
@@ -47,6 +49,42 @@ public class Solution_101 {
         root.left = helper(nums, left, mid - 1);
         root.right = helper(nums, mid + 1, right);
         return root;
+    }
+
+    /* 118. 杨辉三角 */
+    public List<List<Integer>> generate(int numRows) {
+        List<List<Integer>> ans = new ArrayList<>();
+        if (numRows == 0) {
+            return ans;
+        }
+
+        ans.add(new ArrayList<>());
+        ans.get(0).add(1);
+        if (numRows == 1) {
+            return ans;
+        }
+
+        ans.add(new ArrayList<>());
+        ans.get(1).add(1);
+        ans.get(1).add(1);
+        if (numRows == 2) {
+            return ans;
+        }
+
+        for (int i = 2; i < numRows; i++) {
+            List<Integer> row = new ArrayList<>();
+            List<Integer> preRow = ans.get(i - 1);
+
+            row.add(1);
+
+            for (int j = 1; j < i; j++) {
+                row.add(preRow.get(j - 1) + preRow.get(j));
+            }
+
+            row.add(1);
+            ans.add(row);
+        }
+        return ans;
     }
 
     /* 121. 买卖股票的最佳时机 */
