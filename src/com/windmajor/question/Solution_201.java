@@ -2,6 +2,8 @@ package com.windmajor.question;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Solution_201 {
 
@@ -68,6 +70,64 @@ public class Solution_201 {
         }
         return false;
     }
+
+    /* 268. 丢失的数字 */
+    public int missingNumber(int[] nums) { // 数学方法
+        int count1 = 0;
+        for (int num : nums) {
+            count1 += num;
+        }
+
+        int count2 = 0;
+        for (int i = 0; i < nums.length + 1; i++) {
+            count2 += i;
+        }
+
+        return count2 - count1;
+    }
+
+    public int missingNumber2(int[] nums) {
+        Arrays.sort(nums);
+
+        if (nums[0] != 0) {
+            return 0;
+        }
+
+        if (nums[nums.length - 1] != nums.length) {
+            return nums.length;
+        }
+
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[i] != i) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public int missingNumber3(int[] nums) {
+        Set<Integer> numSet = new HashSet<>();
+        for (int num : nums) {
+            numSet.add(num);
+        }
+
+        int expectedNumCount = nums.length + 1;
+        for (int number = 0; number < expectedNumCount; number++) {
+            if (!numSet.contains(number)) {
+                return number;
+            }
+        }
+        return -1;
+    }
+
+    public int missingNumber4(int[] nums) {
+        int missing = nums.length;
+        for (int i = 0; i < nums.length; i++) {
+            missing ^= i ^ nums[i];
+        }
+        return missing;
+    }
+
 
     /* 278. 第一个错误的版本 */
     private boolean isBadVersion(int version) {
