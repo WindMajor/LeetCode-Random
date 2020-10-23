@@ -5,6 +5,24 @@ import java.util.HashSet;
 
 public class Solution_701 {
 
+    /* 724. 寻找数组的中心索引 */
+    public int pivotIndex(int[] nums) {
+        int sum = 0;
+        int leftSum = 0;
+
+        for (int x : nums) {
+            sum += x;
+        }
+
+        for (int i = 0; i < nums.length; i++) {
+            if (leftSum == sum - leftSum - nums[i]) {
+                return i;
+            }
+            leftSum += nums[i];
+        }
+        return -1;
+    }
+
     /* 771. 宝石与石头 */
     public int numJewelsInStones(String J, String S) {
         HashMap<Character, Integer> map = new HashMap<>();
