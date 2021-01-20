@@ -10,7 +10,11 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) {
-        new Solution_001().reverse(0);
+//        new Solution_001().reverse(0);
+
+        String s = "ABCDEFG";
+
+        System.out.println(s.substring(3, 3));
 
     }
 

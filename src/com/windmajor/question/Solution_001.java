@@ -96,8 +96,57 @@ public class Solution_001 {
         return rev;
     }
 
+    /* 9. 回文数 */
+    public boolean isPalindrome(int x) {
+        if (x < 0 || (x % 10 == 0 && x != 0)) {
+            return false;
+        }
+
+        int rev = 0;
+        while (x > rev) { // 只需要判断弹出了一半的数字进行对比即可
+            rev = rev * 10 + x % 10;
+            x /= 10;
+        }
+        return (x == rev || x == rev / 10);
+    }
+
+    public boolean isPalindrome2(int x) {
+        if (x < 0 || (x % 10 == 0 && x != 0)) {
+            return false;
+        }
+
+        int value = x;
+        int rev = 0;
+
+        while (x != 0) {
+            int pop = x % 10;
+            x /= 10;
+
+            rev = rev * 10 + pop;
+        }
+
+        return rev == value;
+    }
+
     /* 13. 罗马数字转整数 */
     public int romanToInt(String s) {
+        char[] array = s.toCharArray();
+        int result = 0;
+        for (int i = 0; i < array.length; i++) {
+            if (i < array.length - 1) {
+                if (getValue(array[i]) >= getValue(array[i + 1])) {
+                    result += getValue(array[i]);
+                } else {
+                    result -= getValue(array[i]);
+                }
+            } else {
+                result += getValue(array[i]);
+            }
+        }
+        return result;
+    }
+
+    public int romanToInt2(String s) {
         int ans = 0;
         int preNum = getValue(s.charAt(0));
         for (int i = 1; i < s.length(); i++) {
@@ -133,6 +182,122 @@ public class Solution_001 {
                 return 0;
         }
     }
+
+    /* 14. 最长公共前缀 */
+
+    // 分治策略
+    public String longestCommonPrefix(String[] strs) {
+        if (strs == null || strs.length == 0) {
+            return "";
+        }
+        return longestPrefix(strs, 0, strs.length - 1);
+    }
+
+    private String longestPrefix(String[] strs, int start, int end) {
+        if (start == end) {
+            return strs[start];
+        } else {
+            int mid = (end - start) / 2 + start;
+            String left = longestPrefix(strs, start, mid);
+            String right = longestPrefix(strs, mid + 1, end);
+            return commonPrefix(left, right);
+        }
+    }
+
+    private String commonPrefix(String str1, String str2) {
+        int minLength = Math.min(str1.length(), str2.length());
+        for (int i = 0; i < minLength; i++) {
+            if (str1.charAt(i) != str2.charAt(i)) {
+                return str1.substring(0, i);
+            }
+        }
+        return str1.substring(0, minLength);
+    }
+
+    // 两分法 这里并不是典型的两分法，因为牵扯到一个接口 sbustring(string, end)，实际上end是取不到的，包左不包右，这里要做特殊的处理
+    public String longestCommonPrefix2(String[] strs) {
+        if (strs == null || strs.length == 0) {
+            return "";
+        }
+
+        int minLength = Integer.MAX_VALUE;
+        for (int i = 0; i < strs.length; i++) {
+            minLength = Math.min(minLength, strs[i].length());
+        }
+
+        int low = 0;
+        int high = minLength;
+        int ans = 0;
+        while (low < high) {
+            int mid = (low + high) / 2;
+            if (isCommonPrefix(strs, mid + 1)) { // 这里需要特殊处理
+                low = mid + 1; // 这里也是特殊处理了
+            } else {
+                high = mid;
+            }
+        }
+        return strs[0].substring(0, low);
+    }
+
+    private boolean isCommonPrefix(String[] strs, int index) {
+        String str0 = strs[0].substring(0, index);
+        for (int i = 1; i < strs.length; i++) {
+            String str = strs[i];
+            for (int j = 0; j < str0.length(); j++) {
+                if (str0.charAt(j) != str.charAt(j)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    // 纵向扫描
+    public String longestCommonPrefix3(String[] strs) {
+        if (strs.length == 0) {
+            return "";
+        }
+
+        StringBuilder ans = new StringBuilder();
+
+        for (int i = 0; i < strs[0].length(); i++) {
+            char currentChar = strs[0].charAt(i);
+
+            for (int j = 1; j < strs.length; j++) {
+                if (i >= strs[j].length() || currentChar != strs[j].charAt(i)) {
+                    return ans.toString();
+                }
+            }
+            ans.append(currentChar);
+        }
+        return ans.toString();
+    }
+
+    // 横向扫描
+    public String longestCommonPrefix4(String[] strs) {
+        if (strs == null || strs.length == 0) {
+            return "";
+        }
+        String ans = strs[0];
+        for (int i = 1; i < strs.length; i++) {
+            ans = getPrefix(ans, strs[i]);
+            if (ans.length() == 0) {
+                break;
+            }
+        }
+        return ans;
+    }
+
+    private String getPrefix(String str1, String str2) {
+        int len = Math.min(str1.length(), str2.length());
+        int index = 0;
+        while (index < len && str1.charAt(index) == str2.charAt(index)) {
+            index += 1;
+        }
+        return str1.substring(0, index);
+    }
+
+
 
     /* 20. 有效的括号 */
     public boolean isValid(String s) {
