@@ -364,9 +364,22 @@ public class Solution_001 {
     }
 
     // 递归
-
-    // 迭代（递推）
     public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        if (l1 == null) {
+            return l2;
+        } else if (l2 == null) {
+            return l1;
+        } else if (l1.val <= l2.val) {
+            l1.next = mergeTwoLists(l1.next, l2);
+            return l1;
+        } else {
+            l2.next = mergeTwoLists(l1, l2.next);
+            return l2;
+        }
+    }
+
+    // 迭代
+    public ListNode mergeTwoLists2(ListNode l1, ListNode l2) {
         ListNode preNode = new ListNode(-1);
         ListNode l0 = preNode;
 
@@ -388,6 +401,38 @@ public class Solution_001 {
             l0.next = l2;
         }
         return preNode.next;
+    }
+
+    /* 26. 删除排序数组中的重复项 */
+    public int removeDuplicates(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+
+        int i = 0;
+        for (int j = 1; j < nums.length; j++) {
+            if (nums[j] > nums[i]) {
+                i += 1;
+                nums[i] = nums[j];
+            }
+        }
+        return i + 1;
+    }
+
+    /* 27. 移除元素 */
+    public int removeElement(int[] nums, int val) {
+        if(nums == null || nums.length == 0) {
+            return 0;
+        }
+
+        int i = 0;
+        for (int j = 0; j < nums.length; j++) {
+            if (nums[j] != val) {
+                nums[i] = nums[j];
+                i += 1;
+            }
+        }
+        return i;
     }
 
 
