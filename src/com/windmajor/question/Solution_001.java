@@ -298,9 +298,27 @@ public class Solution_001 {
     }
 
 
-
     /* 20. 有效的括号 */
     public boolean isValid(String s) {
+        Stack<Character> stack = new Stack<>();
+
+        HashMap<Character, Character> map = new HashMap<>();
+        map.put('}', '{');
+        map.put(')', '(');
+        map.put(']', '[');
+
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (!stack.isEmpty() && stack.peek() == map.get(c)) {
+                stack.pop();
+            } else {
+                stack.add(c);
+            }
+        }
+        return stack.isEmpty();
+    }
+
+    public boolean isValid2(String s) {
         int n = s.length();
         if (n % 2 == 1) {
             return false;
@@ -325,6 +343,51 @@ public class Solution_001 {
             }
         }
         return stack.isEmpty();
+    }
+
+    /* 21. 合并两个有序链表 */
+    public class ListNode {
+        int val;
+        ListNode next;
+
+        ListNode() {
+        }
+
+        ListNode(int val) {
+            this.val = val;
+        }
+
+        ListNode(int val, ListNode next) {
+            this.val = val;
+            this.next = next;
+        }
+    }
+
+    // 递归
+
+    // 迭代（递推）
+    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        ListNode preNode = new ListNode(-1);
+        ListNode l0 = preNode;
+
+        while (l1 != null && l2 != null) {
+            if (l1.val <= l2.val) {
+                l0.next = l1;
+                l1 = l1.next;
+            } else {
+                l0.next = l2;
+                l2 = l2.next;
+            }
+            l0 = l0.next;
+        }
+
+        if (l1 != null) {
+            l0.next = l1;
+        }
+        if (l2 != null) {
+            l0.next = l2;
+        }
+        return preNode.next;
     }
 
 
