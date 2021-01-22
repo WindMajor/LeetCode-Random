@@ -435,6 +435,65 @@ public class Solution_001 {
         return i;
     }
 
+    /* 28. 实现strStr() */
+    // 移动窗口
+    public int strStr(String haystack, String needle) {
+        if (needle == null || needle.isEmpty()) {
+            return 0;
+        }
+
+        if (haystack == null || haystack.isEmpty()) {
+            return -1;
+        }
+
+        int hLen = haystack.length();
+        int nLen = needle.length();
+        char c = needle.charAt(0);
+
+        for (int i = 0; i < hLen; i++) {
+            if (haystack.charAt(i) == c) {
+                if (i + nLen > hLen) {
+                    return -1;
+                }
+                String str = haystack.substring(i, i + nLen);
+                if (str.equals(needle)) {
+                    return i;
+                }
+            }
+        }
+        return -1;
+    }
+
+    /* 35. 搜索插入位置 */
+    // 两分法
+    public int searchInsert(int[] nums, int target) {
+        int len = nums.length;
+        int l = 0;
+        int r = len - 1;
+        while (l <= r) {
+            int mid = (l + r) / 2;
+            if (target == nums[mid]) {
+                return mid;
+            } else if (target > nums[mid]) {
+                l = mid + 1;
+            } else {
+                r = mid - 1;
+            }
+        }
+        return l;
+    }
+
+    // 扫描
+    public int searchInsert2(int[] nums, int target) {
+        int i;
+        for (i = 0; i < nums.length; i++) {
+            if (nums[i] < target) {
+                continue;
+            }
+            return i;
+        }
+        return i;
+    }
 
     /* 36. 有效的数独 */
     public boolean isValidSudoku(char[][] board) {
