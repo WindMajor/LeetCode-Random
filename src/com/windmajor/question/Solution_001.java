@@ -524,6 +524,48 @@ public class Solution_001 {
         return true;
     }
 
+    /* 38.外观数列 */
+    // 递归
+    public String countAndSay(int n) {
+        if (n == 1) {
+            return "1";
+        }
+
+        String str = countAndSay(n - 1);
+        StringBuilder sb = new StringBuilder();
+
+        int i = 0;
+        for (int j = 1; j < str.length(); j++) {
+            if (str.charAt(i) != str.charAt(j)) {
+                sb.append(j - i).append(str.charAt(i));
+                i = j;
+            }
+        }
+        sb.append(str.length() - i).append(str.charAt(i));
+        return sb.toString();
+    }
+
+    // 迭代
+    public String countAndSay2(int n) {
+        String ans = "1";
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 1; i < n; i++) {
+            String str = ans;
+            int j = 0;
+            sb.delete(0, sb.length());
+            for (int k = 1; k < str.length(); k++) {
+                if (str.charAt(j) != str.charAt(k)) {
+                    sb.append(k - j).append(str.charAt(j));
+                    j = k;
+                }
+            }
+            sb.append(str.length() - j).append(str.charAt(j));
+            ans = sb.toString();
+        }
+        return ans;
+    }
+
     /* 49. 字母异位词分组 */
     public List<List<String>> groupAnagrams(String[] strs) {
         if (strs == null) return new ArrayList<>();
@@ -553,8 +595,7 @@ public class Solution_001 {
     }
 
     public int maxSubArray2(int[] nums) {  // 动态规划
-        for (int i = 0; i < nums.length; i++) {
-            if (i - 1 < 0) continue;
+        for (int i = 1; i < nums.length; i++) {
             if (nums[i - 1] > 0) {
                 nums[i] = nums[i] + nums[i - 1];
             }
@@ -567,6 +608,40 @@ public class Solution_001 {
         return ans;
     }
 
+    public class Status {
+        public int lSum,rSum,mSum,iSum;
+
+        public Status(int lSum, int rSum, int mSum, int iSum) {
+            this.lSum = lSum;
+            this.rSum = rSum;
+            this.mSum = mSum;
+            this.iSum = iSum;
+        }
+    }
+
+    public int maxSubArray3(int[] nums) { // 分治
+        return getInfo(nums, 0, nums.length - 1).mSum;
+    }
+
+    public Status getInfo(int[] a, int l, int r) {
+        if (l == r) {
+            return new Status(a[l], a[l], a[l], a[l]);
+        }
+        int mid = (l + r) / 2;
+        Status lSub = getInfo(a, l, mid);
+        Status rSub = getInfo(a, mid + 1, r);
+        return pushUp(lSub, rSub);
+    }
+
+    private Status pushUp(Status l, Status r) {
+        int iSum = l.iSum + r.iSum;
+        int lSum = Math.max(l.lSum, l.iSum + r.lSum);
+        int rSum = Math.max(r.rSum, r.iSum + l.rSum);
+        int mSum = Math.max(Math.max(l.mSum, r.mSum), l.rSum + r.lSum);
+        return new Status(lSum, rSum, mSum, iSum);
+    }
+
+    /*  */
 
     /* 70. 爬楼梯 */
     public int climbStairs(int n) {
