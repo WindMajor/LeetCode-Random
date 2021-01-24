@@ -641,7 +641,73 @@ public class Solution_001 {
         return new Status(lSum, rSum, mSum, iSum);
     }
 
-    /*  */
+    /* 58.最后一个单词的长度 */
+    public int lengthOfLastWord(String s) {
+        if (s == null || s.length() == 0) {
+            return 0;
+        }
+        int len = s.length();
+        int ans = 0;
+        for (int i = len - 1; i >= 0; i--) {
+            if (s.charAt(i) == ' ') {
+                if (ans == 0) {
+                    continue;
+                } else {
+                    break;
+                }
+            }
+            ans += 1;
+        }
+        return ans;
+    }
+
+    /* 66.加一 */
+    public int[] plusOne(int[] digits) {
+        int len = digits.length;
+
+        for (int i = len - 1; i >= 0; i--) {
+            digits[i] += 1;
+            if (digits[i] < 10) {
+                return digits;
+            }
+            digits[i] = 0;
+        }
+        int[] newDigits = new int[len + 1];
+        newDigits[0] = 1;
+        for (int i = 1; i < len + 1; i++) {
+            newDigits[i] = 0;
+        }
+        return newDigits;
+    }
+
+    /* 67. 二进制求和 */
+    public String addBinary(String a, String b) {
+        StringBuilder sb = new StringBuilder();
+
+        int aLen = a.length();
+        int bLen = b.length();
+        int len = Math.max(a.length(), b.length());
+        int carry = 0;
+        for (int i = 0; i < len; i++) {
+            if (i < aLen) {
+                carry += a.charAt(aLen - 1 - i) - '0';
+            }
+            if (i < bLen) {
+                carry += b.charAt(bLen - 1 - i) - '0';
+            }
+            sb.append((char)(carry % 2 + '0'));
+            carry /= 2;
+        }
+        if (carry > 0) {
+            sb.append('1');
+        }
+        sb.reverse();
+        return sb.toString();
+    }
+
+    public String addBinary2(String a, String b) { // 但这种方法无法通过
+        return Integer.toBinaryString(Integer.parseInt(a, 2) + Integer.parseInt(b, 2));
+    }
 
     /* 70. 爬楼梯 */
     public int climbStairs(int n) {

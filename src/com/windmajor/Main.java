@@ -3,18 +3,13 @@ package com.windmajor;
 import com.windmajor.question.Solution_001;
 import com.windmajor.question.Solution_701;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class Main {
 
     public static void main(String[] args) {
-//        new Solution_001().reverse(0);
-
-        String s = "ABCDEFG";
-
-        System.out.println(s.substring(3, 3));
+        int ret = new Solution_001().lengthOfLastWord("a ");
+        System.out.println(ret);
 
     }
 
