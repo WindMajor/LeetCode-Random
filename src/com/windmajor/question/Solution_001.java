@@ -708,8 +708,29 @@ public class Solution_001 {
     public String addBinary2(String a, String b) { // 但这种方法无法通过
         return Integer.toBinaryString(Integer.parseInt(a, 2) + Integer.parseInt(b, 2));
     }
+    
+    /* 69. x的平方根 */
+    public int mySqrt(int x) {
+        if (x == 0) {
+            return 0;
+        }
+        int l = 0;
+        int r = x;
+        int ans = -1;
+        while (l <= r) {
+            int mid = (l + r) / 2;
+            if ((long)mid * mid <= x) {
+                ans = mid;
+                l = mid + 1;
+            } else {
+                r = mid - 1;
+            }
+        }
+        return ans;
+    }
 
     /* 70. 爬楼梯 */
+    // 动态规划
     public int climbStairs(int n) {
         int p = 0;
         int q = 0;
@@ -720,6 +741,26 @@ public class Solution_001 {
             r = p + q;
         }
         return r;
+    }
+
+    // 记忆化递归
+    public int climbStairs2(int n) {
+        int[] mem = new int[n + 1];
+        return climbStairs2(n, mem);
+    }
+
+    private int climbStairs2(int n, int[] mem) {
+        if (mem[n] > 0) {
+            return mem[n];
+        }
+        if (n == 1) {
+            mem[n] = 1;
+        } else if (n == 2) {
+            mem[n] = 2;
+        } else {
+            mem[n] = climbStairs2(n - 1, mem) + climbStairs2(n - 2, mem);
+        }
+        return mem[n];
     }
 
     /* 88. 合并两个有序数组 */
