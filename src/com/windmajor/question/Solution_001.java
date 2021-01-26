@@ -421,7 +421,7 @@ public class Solution_001 {
 
     /* 27. 移除元素 */
     public int removeElement(int[] nums, int val) {
-        if(nums == null || nums.length == 0) {
+        if (nums == null || nums.length == 0) {
             return 0;
         }
 
@@ -609,7 +609,7 @@ public class Solution_001 {
     }
 
     public class Status {
-        public int lSum,rSum,mSum,iSum;
+        public int lSum, rSum, mSum, iSum;
 
         public Status(int lSum, int rSum, int mSum, int iSum) {
             this.lSum = lSum;
@@ -695,7 +695,7 @@ public class Solution_001 {
             if (i < bLen) {
                 carry += b.charAt(bLen - 1 - i) - '0';
             }
-            sb.append((char)(carry % 2 + '0'));
+            sb.append((char) (carry % 2 + '0'));
             carry /= 2;
         }
         if (carry > 0) {
@@ -708,7 +708,7 @@ public class Solution_001 {
     public String addBinary2(String a, String b) { // 但这种方法无法通过
         return Integer.toBinaryString(Integer.parseInt(a, 2) + Integer.parseInt(b, 2));
     }
-    
+
     /* 69. x的平方根 */
     public int mySqrt(int x) {
         if (x == 0) {
@@ -719,7 +719,7 @@ public class Solution_001 {
         int ans = -1;
         while (l <= r) {
             int mid = (l + r) / 2;
-            if ((long)mid * mid <= x) {
+            if ((long) mid * mid <= x) {
                 ans = mid;
                 l = mid + 1;
             } else {
@@ -763,6 +763,24 @@ public class Solution_001 {
         return mem[n];
     }
 
+    /* 83. 删除排序链表中的重复元素 */
+    public ListNode deleteDuplicates(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        ListNode l = head;
+        ListNode r = head.next;
+        while (r != null) {
+            if (l.val == r.val) {
+                l.next = r.next;
+            } else {
+                l = r;
+            }
+            r = r.next;
+        }
+        return head;
+    }
+
     /* 88. 合并两个有序数组 */
     public void merge(int[] nums1, int m, int[] nums2, int n) {
         System.arraycopy(nums2, 0, nums1, m, n);
@@ -789,14 +807,96 @@ public class Solution_001 {
     }
 
     public void merge3(int[] nums1, int m, int[] nums2, int n) {
-        int p1 = m - 1;
-        int p2 = n - 1;
-        int p = m + n - 1;
-
-        while ((p1 >= 0) && (p2 >= 0)) {
-            nums1[p--] = (nums1[p1] < nums2[p2]) ? nums2[p2--] : nums1[p1--];
+        int i = m - 1;
+        int j = n - 1;
+        int k = m + n - 1;
+        while (i >= 0 && j >= 0) {
+            if (nums1[i] <= nums2[j]) {
+                nums1[k] = nums2[j];
+                j -= 1;
+            } else {
+                nums1[k] = nums1[i];
+                i -= 1;
+            }
+            k -= 1;
         }
 
-        System.arraycopy(nums2, 0, nums2, 0, p2 + 1);
+        while (j >= 0) {
+            nums1[k] = nums2[j];
+            k -= 1;
+            j -= 1;
+        }
+    }
+
+    /* 100 */
+    public class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode() {
+        }
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+
+        TreeNode(int val, TreeNode left, TreeNode right) {
+            this.val = val;
+            this.left = left;
+            this.right = right;
+        }
+    }
+    public boolean isSameTree(TreeNode p, TreeNode q) {
+        if (p == null && q == null) {
+            return true;
+        } else if (p == null ^ q == null) {
+            return false;
+        } else if (p.val != q.val) {
+            return false;
+        } else {
+            return isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
+        }
+    }
+
+
+    // 广度优先，用到了队列的数据结构
+    public boolean isSameTree2(TreeNode p, TreeNode q) {
+        if (p == null && q == null) {
+            return true;
+        } else if (p == null ^ q == null) {
+            return false;
+        }
+
+        LinkedList<TreeNode> list1 = new LinkedList<>();
+        LinkedList<TreeNode> list2 = new LinkedList<>();
+        list1.offer(p);
+        list2.offer(q);
+        while (!list1.isEmpty() && !list2.isEmpty()) {
+            TreeNode node1 = list1.poll();
+            TreeNode node2 = list2.poll();
+
+            if (node1.val != node2.val) {
+                return false;
+            }
+            if (node1.left == null ^ node2.left == null) {
+                return false;
+            } else if (node1.right == null ^ node2.right == null) {
+                return false;
+            }
+            if (node1.left != null) {
+                list1.offer(node1.left);
+            }
+            if (node2.left != null) {
+                list2.offer(node2.left);
+            }
+            if (node1.right != null) {
+                list1.offer(node1.right);
+            }
+            if (node2.right != null) {
+                list2.offer(node2.right);
+            }
+        }
+        return list1.isEmpty() && list2.isEmpty();
     }
 }
