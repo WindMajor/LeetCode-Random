@@ -1,14 +1,8 @@
 package com.windmajor.question;
 
-import java.util.ArrayList;
-import java.util.Deque;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class Solution_101 {
-
-
-    /* 108. 将有序数组转换为二叉搜索树 */
     public static class TreeNode {
         int val;
         TreeNode left;
@@ -18,6 +12,92 @@ public class Solution_101 {
             val = x;
         }
     }
+
+    /* 101. 对称二叉树 */
+    // 递归深度优先
+    public boolean isSymmetric(TreeNode root) {
+        if (root == null) {
+            return true;
+        }
+        return compareTreeNode(root.left, root.right);
+    }
+
+    private boolean compareTreeNode(TreeNode l, TreeNode r) {
+        if (l== null && r == null) {
+            return true;
+        } else if (l == null ^ r == null) {
+            return false;
+        } else if (l.val != r.val) {
+            return false;
+        } else {
+            return compareTreeNode(l.left, r.right) && compareTreeNode(l.right, r.left);
+        }
+    }
+    // 迭代广度优先
+    public boolean isSymmetric2(TreeNode root) {
+        if (root == null) {
+            return true;
+        }
+
+        Queue<TreeNode> q = new LinkedList<>();
+        q.offer(root.left);
+        q.offer(root.right);
+        while (!q.isEmpty()) {
+            TreeNode l = q.poll();
+            TreeNode r = q.poll();
+            if (l == null && r == null) {
+                continue;
+            } else if (l == null ^ r == null) {
+                return false;
+            } else if (l.val != r.val) {
+                return false;
+            }
+            q.offer(l.left);
+            q.offer(r.right);
+            q.offer(l.right);
+            q.offer(r.left);
+        }
+        return true;
+    }
+
+    /* 104. 二叉树的最大深度 */
+    // 递归 深度优先
+    public int maxDepth(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        if (root.left == null && root.right == null) {
+            return 1;
+        }
+        return 1 + Math.max(maxDepth(root.left), maxDepth(root.right));
+    }
+    // 迭代 广度优先
+    public int maxDepth2(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+
+        int ans = 0;
+        Queue<TreeNode> q = new LinkedList<>();
+        q.offer(root);
+        while (!q.isEmpty()) {
+            int size = q.size();
+            while (size > 0) {
+                TreeNode node = q.poll();
+                if (node.left != null) {
+                    q.offer(node.left);
+                }
+                if (node.right != null) {
+                    q.offer(node.right);
+                }
+                size -= 1;
+            }
+            ans += 1;
+        }
+        return ans;
+    }
+
+    /* 108. 将有序数组转换为二叉搜索树 */
 
     public TreeNode sortedArrayToBST(int[] nums) {
         return helper(nums, 0, nums.length - 1);
