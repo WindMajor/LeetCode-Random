@@ -23,7 +23,7 @@ public class Solution_101 {
     }
 
     private boolean compareTreeNode(TreeNode l, TreeNode r) {
-        if (l== null && r == null) {
+        if (l == null && r == null) {
             return true;
         } else if (l == null ^ r == null) {
             return false;
@@ -33,6 +33,7 @@ public class Solution_101 {
             return compareTreeNode(l.left, r.right) && compareTreeNode(l.right, r.left);
         }
     }
+
     // 迭代广度优先
     public boolean isSymmetric2(TreeNode root) {
         if (root == null) {
@@ -71,6 +72,7 @@ public class Solution_101 {
         }
         return 1 + Math.max(maxDepth(root.left), maxDepth(root.right));
     }
+
     // 迭代 广度优先
     public int maxDepth2(TreeNode root) {
         if (root == null) {
@@ -93,6 +95,59 @@ public class Solution_101 {
                 size -= 1;
             }
             ans += 1;
+        }
+        return ans;
+    }
+
+    /* 107. 二叉树的层序遍历 II */
+    // 深度优先
+    public List<List<Integer>> levelOrderBottom(TreeNode root) {
+        List<List<Integer>> ans = new ArrayList<>();
+        if (root == null) {
+            return ans;
+        }
+        dfs(root, 0, ans);
+        return ans;
+    }
+
+    private void dfs(TreeNode node, int depth, List<List<Integer>> ans) {
+        if (depth == ans.size()) {
+            ans.add(0, new ArrayList<>());
+        }
+        ans.get(ans.size() - 1 - depth).add(node.val);
+
+        if (node.left != null) {
+            dfs(node.left, depth + 1, ans);
+        }
+        if (node.right != null) {
+            dfs(node.right, depth + 1, ans);
+        }
+    }
+
+    // BFS 广度优先
+    public List<List<Integer>> levelOrderBottom2(TreeNode root) {
+        List<List<Integer>> ans = new ArrayList<>();
+        if (root == null) {
+            return ans;
+        }
+
+        Queue<TreeNode> q = new LinkedList<>();
+        q.offer(root);
+        while (!q.isEmpty()) {
+            List<Integer> list = new ArrayList<>();
+            int size = q.size();
+            while (size > 0) {
+                TreeNode node = q.poll();
+                list.add(node.val);
+                if (node.left != null) {
+                    q.offer(node.left);
+                }
+                if (node.right != null) {
+                    q.offer(node.right);
+                }
+                size -= 1;
+            }
+            ans.add(0, list);
         }
         return ans;
     }
@@ -130,6 +185,72 @@ public class Solution_101 {
         root.right = helper(nums, mid + 1, right);
         return root;
     }
+
+    /* 110.平衡二叉树 */
+    public boolean isBalanced(TreeNode root) {
+        if (root == null) {
+            return true;
+        } else if (root.left == null && root.right == null) {
+            return true;
+        }
+
+        return isBalanced(root.left) && isBalanced(root.right) && (Math.abs(height(root.left) - height(root.right)) <= 1);
+    }
+
+    private int height(TreeNode node) {
+        if (node == null) {
+            return 0;
+        }
+        return 1 + Math.max(height(node.left), height(node.right));
+    }
+
+    /* 111.二叉树的最小深度 */
+    // 广度优先 耗时：1ms
+    public int minDepth(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+
+        int ans = 0;
+        Queue<TreeNode> q = new LinkedList<>();
+        q.offer(root);
+        while (!q.isEmpty()) {
+            int size = q.size();
+            ans += 1;
+            for (int i = 0; i < size; i++) {
+                TreeNode node = q.poll();
+                if (node.left == null && node.right == null) {
+                    return ans;
+                }
+                if (node.left != null) {
+                    q.offer(node.left);
+                }
+                if (node.right != null) {
+                    q.offer(node.right);
+                }
+            }
+        }
+        return ans;
+    }
+
+    // 深度优先 耗时：10ms
+    public int minDepth2(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        if (root.left == null && root.right == null) {
+            return 1;
+        }
+        int minHeight = Integer.MAX_VALUE;
+        if (root.left != null) {
+            minHeight = Math.min(minDepth2(root.left), minHeight);
+        }
+        if (root.right != null) {
+            minHeight = Math.min(minDepth2(root.right), minHeight);
+        }
+        return 1 + minHeight;
+    }
+
 
     /* 118. 杨辉三角 */
     public List<List<Integer>> generate(int numRows) {
