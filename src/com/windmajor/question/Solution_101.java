@@ -251,42 +251,73 @@ public class Solution_101 {
         return 1 + minHeight;
     }
 
+    /* 112.路径综合 */
+    // DFS
+    public boolean hasPathSum(TreeNode root, int targetSum) {
+        if (root == null) {
+            return false;
+        }
+
+        if (root.left == null && root.right == null) {
+            return root.val == targetSum;
+        }
+        return hasPathSum(root.left, targetSum - root.val) || hasPathSum(root.right, targetSum - root.val);
+    }
+
+    // BFS
+    public boolean hasPathSum2(TreeNode root, int targetSum) {
+        if (root == null) {
+            return false;
+        }
+
+        if (root.left == null && root.right == null) {
+            return root.val == targetSum;
+        }
+
+        Queue<TreeNode> nodeQueue = new LinkedList<>();
+        Queue<Integer> valQueue = new LinkedList<>();
+        nodeQueue.offer(root);
+        valQueue.offer(root.val);
+        while (!nodeQueue.isEmpty()) {
+            TreeNode node = nodeQueue.poll();
+            int value = valQueue.poll();
+            if (node.left == null && node.right == null) {
+                if (value == targetSum) {
+                    return true;
+                }
+                continue;
+            }
+            if (node.left != null) {
+                nodeQueue.offer(node.left);
+                valQueue.offer(node.left.val + value);
+            }
+            if (node.right != null) {
+                nodeQueue.offer(node.right);
+                valQueue.offer(node.right.val + value);
+            }
+        }
+        return false;
+    }
+
 
     /* 118. 杨辉三角 */
     public List<List<Integer>> generate(int numRows) {
         List<List<Integer>> ans = new ArrayList<>();
-        if (numRows == 0) {
-            return ans;
-        }
-
-        ans.add(new ArrayList<>());
-        ans.get(0).add(1);
-        if (numRows == 1) {
-            return ans;
-        }
-
-        ans.add(new ArrayList<>());
-        ans.get(1).add(1);
-        ans.get(1).add(1);
-        if (numRows == 2) {
-            return ans;
-        }
-
-        for (int i = 2; i < numRows; i++) {
-            List<Integer> row = new ArrayList<>();
-            List<Integer> preRow = ans.get(i - 1);
-
-            row.add(1);
-
-            for (int j = 1; j < i; j++) {
-                row.add(preRow.get(j - 1) + preRow.get(j));
+        for (int i = 0; i < numRows; i++) {
+            List<Integer> list = new ArrayList<>();
+            for (int j = 0; j <= i; j++) {
+                if (j == 0 || j == i) {
+                    list.add(1);
+                } else {
+                    List<Integer> oldList = ans.get(i - 1);
+                    list.add(j, oldList.get(j - 1) + oldList.get(j));
+                }
             }
-
-            row.add(1);
-            ans.add(row);
+            ans.add(list);
         }
         return ans;
     }
+
 
     /* 121. 买卖股票的最佳时机 */
     public int maxProfit(int[] prices) {
