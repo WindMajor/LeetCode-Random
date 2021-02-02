@@ -318,6 +318,19 @@ public class Solution_101 {
         return ans;
     }
 
+    /* 119. 杨辉三角II */
+    public List<Integer> getRow(int rowIndex) {
+        List<Integer> list = new ArrayList<>();
+        list.add(1);
+        for (int i = 0; i < rowIndex; i++) {
+            for (int j = 0; j < i; j++) {
+                list.set(j, list.get(j) + list.get(j + 1));
+            }
+            list.add(0, 1);
+        }
+        return list;
+    }
+
 
     /* 121. 买卖股票的最佳时机 */
     public int maxProfit(int[] prices) {
@@ -344,12 +357,124 @@ public class Solution_101 {
         return ans;
     }
 
+    /* 136. 只出现一次的数字 */
+    public int singleNumber(int[] nums) {
+        int ans = nums[0];
+        for (int i = 1; i < nums.length; i++) {
+            ans = ans ^ nums[i];
+        }
+        return ans;
+    }
+
+    /* 141. 环形链表 */
+    static class ListNode {
+        int val;
+        ListNode next;
+
+        ListNode(int x) {
+            val = x;
+            next = null;
+        }
+    }
+
+    public boolean hasCycle(ListNode head) {
+        if (head == null || head.next == null) {
+            return false;
+        }
+        ListNode slow = head;
+        ListNode fast = head.next;
+        while (slow != fast) {
+            if (fast == null || fast.next == null) {
+                return false;
+            }
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return true;
+    }
+
     /* 155. 最小栈 */
-    static class MinStack {
+    class MinStack {
+
+        class Node {
+            int val;
+            int min;
+            Node next;
+
+            public Node(int val, int min) {
+                this.val = val;
+                this.min = min;
+            }
+
+            public Node(int val, int min, Node next) {
+                this.val = val;
+                this.min = min;
+                this.next = next;
+            }
+        }
+
+        private Node head;
+
+        public MinStack() { }
+
+        public void push(int x) {
+            if (head == null) {
+                head = new Node(x, x);
+            } else {
+                head = new Node(x, Math.min(x, head.min), head);
+            }
+        }
+
+        public void pop() {
+            head = head.next;
+        }
+
+        public int top() {
+            return head.val;
+        }
+
+        public int getMin() {
+            return head.min;
+        }
+    }
+
+    static class MinStack2 {
+
+        Deque<int[]> stack;
+
+        /**
+         * initialize your data structure here.
+         */
+        public MinStack2() {
+            stack = new LinkedList<>();
+        }
+
+        public void push(int x) {
+            if (stack.isEmpty()) {
+                stack.push(new int[]{x, x});
+            } else {
+                stack.push(new int[]{x, Math.min(x, stack.peek()[1])});
+            }
+        }
+
+        public void pop() {
+            stack.pop();
+        }
+
+        public int top() {
+            return stack.peek()[0];
+        }
+
+        public int getMin() {
+            return stack.peek()[1];
+        }
+    }
+
+    static class MinStack3 {
         LinkedList<Integer> stack = new LinkedList<>();
         LinkedList<Integer> minStack = new LinkedList<>();
 
-        public MinStack() {
+        public MinStack3() {
             minStack.push(Integer.MAX_VALUE); // 预存一个最大值，用来作比较
         }
 
