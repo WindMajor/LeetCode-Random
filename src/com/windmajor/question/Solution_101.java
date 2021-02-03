@@ -497,6 +497,69 @@ public class Solution_101 {
         }
     }
 
+    /* 160. 相交链表 */
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        if (headA == null || headB == null) {
+            return null;
+        }
+        ListNode nodeA = headA;
+        ListNode nodeB = headB;
+        while (nodeA != nodeB) {
+            if (nodeA == null) {
+                nodeA = headB;
+            } else {
+                nodeA = nodeA.next;
+            }
+            if (nodeB == null) {
+                nodeB = headA;
+            } else {
+                nodeB = nodeB.next;
+            }
+        }
+        return nodeA;
+    }
+
+    /* 167. 两数之和 II */
+    // 双指针
+    public int[] twoSum(int[] numbers, int target) {
+        if (numbers == null || numbers.length == 0) {
+            return new int[2];
+        }
+        int l = 0;
+        int r = numbers.length - 1;
+        while (l < r) {
+            if (target == numbers[l] + numbers[r]) {
+                return new int[] {l + 1, r + 1};
+            } else if (target > numbers[l] + numbers[r]) {
+                l += 1;
+            } else {
+                r -= 1;
+            }
+        }
+        return new int[2];
+    }
+    // 两分法
+    public int[] twoSum2(int[] numbers, int target) {
+        if (numbers == null || numbers.length == 0) {
+            return new int[2];
+        }
+        for (int i = 0; i < numbers.length; i++) {
+            int l = i + 1;
+            int h = numbers.length - 1;
+            while (l <= h) {
+                int mid = (l + h) / 2;
+                if (target == numbers[i] + numbers[mid]) {
+                    return new int[]{i + 1, mid + 1};
+                } else if (target > numbers[i] + numbers[mid]) {
+                    l = mid + 1;
+                } else {
+                    h = mid - 1;
+                }
+            }
+        }
+        return new int[2];
+    }
+
     /* 190. 颠倒二进制位 */
     public int reverseBits(int n) {
         int ans = 0;
