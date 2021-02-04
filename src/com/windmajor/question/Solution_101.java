@@ -560,6 +560,44 @@ public class Solution_101 {
         return new int[2];
     }
 
+    /* 168. Excel表列名称*/
+    public String convertToTitle(int n) {
+        StringBuilder sb = new StringBuilder();
+        while (n > 0) {
+            int pop = (n - 1) % 26;
+            n = (n - 1) / 26;
+            sb.append((char)('A' + pop));
+        }
+        return sb.reverse().toString();
+    }
+
+    /* 169. 多数元素 */
+    public int majorityElement(int[] nums) {
+        int count = 0;
+        int candidate = 0;
+        for (int num : nums) {
+            if (count == 0) {
+                candidate = num;
+            }
+            if (num == candidate) {
+                count += 1;
+            } else {
+                count -= 1;
+            }
+        }
+        return candidate;
+    }
+
+    /* 171. Excel表列序号 */
+    public int titleToNumber(String s) {
+        int ans = 0;
+        for (int i = 0; i < s.length(); i++) {
+            int value = s.charAt(i) - 'A' + 1;
+            ans = ans * 26 + value;
+        }
+        return ans;
+    }
+
     /* 190. 颠倒二进制位 */
     public int reverseBits(int n) {
         int ans = 0;
