@@ -598,6 +598,66 @@ public class Solution_101 {
         return ans;
     }
 
+    /* 172. 阶乘后的0 */
+    public int trailingZeroes(int n) {
+        int ans = 0;
+        while (n > 0) {
+            n /= 5;
+            ans += n;
+        }
+        return ans;
+    }
+
+    public int trailingZeroes2(int n) {
+        int ans = 0;
+        for (int i = 5; i <= n; i += 5) {
+            int powerOf5 = 5;
+            while (i % powerOf5 == 0) {
+                ans += 1;
+                powerOf5 *= 5;
+            }
+        }
+        return ans;
+    }
+
+    public int trailingZeroes3(int n) {
+        int ans = 0;
+        for (int i = 5; i <= n; i += 5) {
+            int currValue = i;
+            while (currValue % 5 == 0) {
+                ans += 1;
+                currValue /= 5;
+            }
+        }
+        return ans;
+    }
+
+    /* 175. 组合两个表 MySQL */
+//    select FirstName, LastName, City, State
+//    from Person left outer join Address
+//    on Person.PersonId = Address.PersonId;
+
+    /* 176. 第二高的薪水 */
+//    SELECT
+//    IFNULL(
+//        (SELECT DISTINCT Salary
+//            FROM Employee
+//            ORDER BY Salary DESC
+//            LIMIT 1 OFFSET 1),
+//    NULL)
+//    AS SecondHighestSalary;
+
+    /* 181. 超过经理收入的员工 */
+//    SELECT a.Name AS Employee
+//    FROM Employee AS a JOIN Employee AS b
+//    ON a.ManagerId = b.Id AND a.Salary > b.Salary;
+
+    /* 182. 查找重复的电子邮箱 */
+//    SELECT Email
+//    FROM Person
+//    GROUP BY Email
+//    HAVING count(Email) > 1;
+
     /* 190. 颠倒二进制位 */
     public int reverseBits(int n) {
         int ans = 0;
