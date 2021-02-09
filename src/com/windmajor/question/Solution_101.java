@@ -658,6 +658,13 @@ public class Solution_101 {
 //    GROUP BY Email
 //    HAVING count(Email) > 1;
 
+    /* 183. 从不订购的客户 */
+//    SELECT Name AS Customers
+//    FROM Customers
+//    WHERE id not in(
+//            SELECT CustomerId FROM Orders
+//    );
+
     /* 190. 颠倒二进制位 */
     public int reverseBits(int n) {
         int ans = 0;
@@ -671,7 +678,7 @@ public class Solution_101 {
     public int reverseBits2(int n) {
         int ans = 0;
         for (int i = 0; i < 32; i++) {
-            ans ^= ((i << i) & n) != 0 ? (1 << (31 - i)) : 0;
+            ans ^= ((1 << i) & n) != 0 ? (1 << (31 - i)) : 0;
         }
         return ans;
     }
@@ -706,6 +713,9 @@ public class Solution_101 {
         }
         return sum;
     }
+
+    /* 193. 有效的电话号码 */
+//    cat file.txt | grep -P "^(\([0-9]{3}\) |[0-9]{3}-)[0-9]{3}-[0-9]{4}$"
 
     /* 198. 打家劫舍 */
     public int rob(int[] nums) {

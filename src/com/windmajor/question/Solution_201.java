@@ -7,6 +7,88 @@ import java.util.Set;
 
 public class Solution_201 {
 
+    /* 202. 快乐数 */
+    public boolean isHappy(int n) {
+        int fast = n;
+        int slow = n;
+        do {
+            slow = getNext(slow);
+            fast = getNext(fast);
+            fast = getNext(fast);
+        } while (fast != 1 && fast != slow);
+        return fast == 1;
+    }
+
+    public boolean isHappy2(int n) {
+        Set<Integer> set = new HashSet<>(Arrays.asList(4, 16, 37, 58, 89, 145, 42, 20));
+        while (n != 1 && !set.contains(n)) {
+            n = getNext(n);
+        }
+        return n == 1;
+    }
+
+    public boolean isHappy3(int n) {
+        Set<Integer> set = new HashSet<>();
+        while (n != 1) {
+            n = getNext(n);
+            if (set.contains(n)) {
+                return false;
+            } else {
+                set.add(n);
+            }
+        }
+        return true;
+    }
+
+    private int getNext(int n) {
+        int sum = 0;
+        int pop = 0;
+        while (n > 0) {
+            pop = n % 10;
+            sum += pop * pop;
+            n /= 10;
+        }
+        return sum;
+    }
+
+    /* 203. 移除链表元素 */
+    public static class ListNode {
+        int val;
+        ListNode next;
+
+        ListNode() {
+        }
+
+        ListNode(int val) {
+            this.val = val;
+        }
+
+        ListNode(int val, ListNode next) {
+            this.val = val;
+            this.next = next;
+        }
+    }
+
+    public ListNode removeElements(ListNode head, int val) {
+        if (head == null) {
+            return null;
+        }
+
+        if (head.val == val) {
+            while (head != null && head.val == val) {
+                head = head.next;
+            }
+        }
+
+        ListNode cur = head;
+        while (cur != null && cur.next != null) {
+            if (cur.next.val == val) {
+                cur.next = cur.next.next;
+            }
+        }
+        return head;
+    }
+
     /* 204. 计数质数 */
     public int countPrimes(int n) {
         boolean[] isPrim = new boolean[n];
@@ -56,6 +138,24 @@ public class Solution_201 {
             }
         }
         return true;
+    }
+
+    /* 206. 反转链表 */
+    public ListNode reverseList(ListNode head) {
+        ListNode[] ans = new ListNode[1];
+        help(head, head.next, ans).next = null;
+        return ans[0];
+    }
+
+    private ListNode help(ListNode pre, ListNode curr, ListNode[] ans) {
+        if (curr.next == null) {
+            ans[0] = curr;
+            curr.next = pre;
+            return pre;
+        } else {
+            help(curr, curr.next, ans).next = pre;
+            return pre;
+        }
     }
 
     /* 219. 存在重复元素 II */
